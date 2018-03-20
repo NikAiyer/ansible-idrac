@@ -1,0 +1,12 @@
+--- # Testing
+- hosts: idrac
+  connection: ssh
+  user: root
+  sudo: yes
+  gather_facts: no
+  tasks:
+    - name: clrraclog -- clear the RAC log
+      raw: racadm clrraclog
+      register: clrraclog
+    - debug: var=clrraclog
+    - local_action: copy content={{ clrraclog.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/clrraclog/{{ inventory_hostname }}-crl.txt

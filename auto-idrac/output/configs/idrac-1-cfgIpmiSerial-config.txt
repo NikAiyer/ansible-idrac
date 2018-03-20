@@ -1,0 +1,1 @@
+["cfgIpmiSerialConnectionMode=1", "cfgIpmiSerialBaudRate=57600", "cfgIpmiSerialFlowControl=1", "cfgIpmiSerialChanPrivLimit=4", "cfgIpmiSerialLineEdit=1", "cfgIpmiSerialDeleteControl=1", "cfgIpmiSerialEchoControl=1", "cfgIpmiSerialHandshakeControl=1", "cfgIpmiSerialNewLineSequence=1", "cfgIpmiSerialInputNewLineSequence=1"]

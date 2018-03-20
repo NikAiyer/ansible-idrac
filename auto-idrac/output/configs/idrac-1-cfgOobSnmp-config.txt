@@ -1,0 +1,1 @@
+["cfgOobSnmpAgentEnable=0", "cfgOobSnmpAgentCommunity=public"]

@@ -1,0 +1,12 @@
+--- # Testing
+- hosts: idrac
+  connection: ssh
+  user: root
+  sudo: yes
+  gather_facts: no
+  tasks:
+    - name: getssninfo -- display session information
+      raw: racadm getssninfo 
+      register: ssn
+    - debug: var=ssn
+    - local_action: copy content={{ ssn.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/ssn/{{ inventory_hostname }}-ssn.txt

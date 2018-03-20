@@ -1,0 +1,1 @@
+["# idRacType=10", "# idRacProductInfo=Integrated Dell Remote Access Controller 6", "# idRacDescriptionInfo=This system component provides a complete set of remote management functions for Dell PowerEdge servers", "# idRacVersionInfo=1.98", "# idRacBuildInfo=08", "# idRacName=iDRAC6"]

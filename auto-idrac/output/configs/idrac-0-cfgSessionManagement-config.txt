@@ -1,0 +1,1 @@
+["cfgSsnMgtWebserverTimeout=1800", "cfgSsnMgtTelnetIdleTimeout=1800", "cfgSsnMgtSshIdleTimeout=1800", "cfgSsnMgtRacadmTimeout=60", "cfgSsnMgtConsRedirMaxSessions=4"]

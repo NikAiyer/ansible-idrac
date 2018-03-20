@@ -1,0 +1,21 @@
+--- # Testing
+- hosts: idrac
+  connection: ssh
+  user: root
+  sudo: yes
+  gather_facts: no
+  tasks:
+    - name: getconfig -- display RAC configuration properties
+      raw: racadm getconfig -h
+      register: racadm_config
+    - debug: var=racadm_config
+    - name: copy to configList
+      local_action: copy content={{ racadm_config.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/configs/{{ inventory_hostname }}-configList.txt
+    - name: getconfig -- display individual RAC configuration properties
+      raw: racadm getconfig -g {{ item }}
+      with_items: "{{ racadm_config.stdout_lines }}"
+      register: loop
+    - debug: var=loop
+    - name: Copy to config files
+      local_action: copy content={{ item.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/configs/{{ inventory_hostname }}-{{ item.item }}-config.txt
+      with_items: "{{ loop.results }}"

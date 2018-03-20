@@ -1,0 +1,17 @@
+--- # Testing
+- hosts: idrac
+  connection: ssh
+  user: root
+  sudo: yes
+  gather_facts: no
+  vars_prompt:
+    - name: force
+      prompt: Do you want to force reset? (Yes or No)
+      private: no
+      default: No
+  tasks:
+    - name: racresetcfg -- restore the RAC configuration to factory defaults
+      raw: racadm racresetcfg {{ '-f' if force|bool else '' }}
+      register: racresetcfg
+    - debug: var=racresetcfg
+    - local_action: copy content={{ racresetcfg.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/racresetcfg/{{ inventory_hostname }}-racresetcfg.txt

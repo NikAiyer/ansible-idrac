@@ -1,0 +1,6 @@
+arp -- display the networking ARP table
+
+Usage:
+
+racadm arp
+

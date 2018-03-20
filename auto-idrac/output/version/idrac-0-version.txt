@@ -1,0 +1,1 @@
+[" Bios Version             = 3.0.0", "", " iDRAC Version            = 1.98", "", " USC Version              = 1.5.0.671", ""]

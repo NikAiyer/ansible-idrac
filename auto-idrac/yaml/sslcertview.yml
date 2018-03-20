@@ -1,0 +1,20 @@
+--- # Testing
+- hosts: idrac
+  connection: ssh
+  user: root
+  sudo: yes
+  gather_facts: no
+  vars_prompt:
+    - name: type
+      prompt: What certificate type do you want to view? [1=server,2=CA certificate for Directory Service]
+      private: no
+    - name: header
+      prompt: Do you want to display headers/labels? (Yes or No)
+      private: no
+      default: No
+  tasks:
+    - name: sslcertview -- view SSL certificate information
+      raw: racadm  sslcertview -t {{ type }}{{ '-A' if header|bool else '' }}
+      register: sslcertview
+    - debug: var=sslcertview
+    - local_action: copy content={{ sslcertview.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/sslcertview/{{ inventory_hostname }}-sslcertview.txt

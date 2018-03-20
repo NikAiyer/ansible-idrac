@@ -1,0 +1,26 @@
+--- # Testing
+- hosts: local
+  connection: ssh
+  user: root
+  sudo: yes
+  gather_facts: no
+  vars_prompt:
+    - name: options
+      prompt: Do you want all, index, or user?
+      private: no
+      default: all
+  tasks:
+    - pause:
+        prompt: Index number
+        private: no
+      when: options == 'index' 
+      register: id
+    - pause:
+        prompt: User
+        private: no
+      when: options == 'user'
+      register: user 
+    - name: racreset -- perform a RAC reset operation
+      shell: echo "{{ '-a' if options == 'all' else '-i' if options == 'index' else '-u' if options == 'user' }}" "{{ id.user_input if options == 'index' else '' }}" "{{user.user_input if options == 'user' else '' }}"
+      register: test
+    - debug: var=test

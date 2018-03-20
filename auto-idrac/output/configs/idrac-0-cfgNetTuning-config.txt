@@ -1,0 +1,1 @@
+["cfgNetTuningNic100MB=1", "cfgNetTuningNicFullDuplex=1", "cfgNetTuningNicMtu=1500", "cfgNetTuningNicAutoneg=1"]

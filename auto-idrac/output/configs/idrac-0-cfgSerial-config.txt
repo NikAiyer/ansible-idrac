@@ -1,0 +1,1 @@
+["cfgSerialBaudRate=57600", "cfgSerialConsoleEnable=0", "cfgSerialConsoleQuitKey=^\\", "cfgSerialConsoleIdleTimeout=300", "cfgSerialConsoleNoAuth=0", "cfgSerialConsoleCommand=", "cfgSerialHistorySize=8192", "cfgSerialCom2RedirEnable=1", "cfgSerialTelnetEnable=0", "cfgSerialSshEnable=1"]

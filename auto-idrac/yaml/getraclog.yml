@@ -1,0 +1,12 @@
+--- # Testing
+- hosts: idrac
+  connection: ssh
+  user: root
+  sudo: yes
+  gather_facts: no
+  tasks:
+    - name: getraclog -- display the RAC log
+      raw: racadm getraclog
+      register: raclog
+    - debug: var=raclog
+    - local_action: copy content={{ raclog.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/raclog/{{ inventory_hostname }}-raclog.txt

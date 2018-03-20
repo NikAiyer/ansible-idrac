@@ -1,0 +1,36 @@
+idrac-0 | SUCCESS | rc=0 >>
+idRacInfo
+cfgLanNetworking
+cfgRemoteHosts
+cfgUserAdmin
+cfgEmailAlert
+cfgSessionManagement
+cfgSerial
+cfgNetTuning
+cfgOobSnmp
+cfgRacTuning
+ifcRacManagedNodeOs
+cfgRacVirtual
+cfgActiveDirectory
+cfgLDAP
+cfgLdapRoleGroup
+cfgLogging
+cfgStandardSchema
+cfgIpmiSerial
+cfgIpmiSol
+cfgIpmiLan
+cfgIpmiPef
+cfgIpmiPet
+cfgIPv6LanNetworking
+cfgIPv6URL
+cfgServerPower
+cfgServerPowerSupply
+cfgVFlashSD
+cfgVFlashPartition
+cfgUserDomain
+cfgSmartCard
+cfgIpmiPetIPv6
+cfgServerInfo
+cfgSensorRedundancy
+Shared connection to idrac-0 closed.
+

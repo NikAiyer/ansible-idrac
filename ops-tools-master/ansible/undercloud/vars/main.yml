@@ -1,0 +1,76 @@
+---
+# All variables needed to deploy an undercloud
+
+rhos_release_rpm:
+
+# OSP/OSPd versioning and build
+version: 12
+rhel_version: 7.4
+rhos_release: 12-director
+build: "2017-12-01.4"
+
+# RDO
+rdo_version: newton
+rdo_rc: 3
+rdo_trunk: false
+
+deploy_additional_repos: false
+repos:
+  rhel-7-server-beta:
+    baseurl: http://walkabout.foobar.com/released/RHEL-7/7.3-Beta/Server/x86_64/os/
+
+# Container Registry Details:
+additional_insecure_registry:
+container_namespace: rhosp12
+containers_tag: 12.0-20171201.1
+local_docker_registry: true
+
+# Scale lab boot order still broke?
+scale_lab_broke: false
+
+# Control Introspection script
+# bulk introspection
+introspection: true
+# better introspection, be sure to turn bulk off if you use this
+introspect_with_retry: false
+
+# Node Pinning:
+# Note, in order to pin nodes, configure pin_nodes_definition with expected format
+# Format is ipmi_address: (node id Example: controller-0 or novacompute-0)
+pin_nodes: false
+# pin_nodes_definition:
+#   perf-1-mm.ipmi_address.com: controller-0
+#   perf-2-mm.ipmi_address.com: cephstorage-0
+#   perf-3-mm.ipmi_address.com: novacompute-0
+#   perf-4-mm.ipmi_address.com: objectstorage-0
+
+# Dump version file to this directory
+version_directory: /etc
+
+# Stack user password:
+# Make a new password:
+# python -c "from passlib.hash import sha512_crypt; print sha512_crypt.encrypt('password')"
+stack_password: $6$rounds=656000$3ZalBI1dHsb8kfJI$XbtraTo6qcAfAHR158Wf4mLoUrDQsTCIWSAZevFapJIq2OS/qATHQ39PwsJ6JusOBue3nxeNm5mTBM3m97EnQ.
+
+# undercloud control plane interface:
+local_interface: em2
+
+# option to enable/disable ironic node cleaning on overcloud nodes
+node_cleaning: true
+
+overcloud_ssl_endpoints: false
+external_network_vip: 172.21.0.10
+
+# External private vlan on undercloud:
+deploy_external_private_vlan: false
+external_vlan_device: em2.10
+private_external_address: 172.21.0.1
+private_external_netmask: 255.255.255.0
+# Tripleo maps external network port to noop.yml, lets keep the default behavior
+allow_external_on_compute: false
+
+# neutron dns:
+dns_server: 8.8.8.8
+
+# instackenv:
+instackenv_json:

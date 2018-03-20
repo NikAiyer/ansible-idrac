@@ -1,0 +1,1 @@
+["cfgSmartCardLogonEnable=0", "cfgSmartCardCRLEnable=0"]

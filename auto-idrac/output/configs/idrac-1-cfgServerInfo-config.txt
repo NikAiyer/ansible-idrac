@@ -1,0 +1,1 @@
+["cfgServerBootOnce=1", "cfgServerFirstBootDevice=No-Override"]

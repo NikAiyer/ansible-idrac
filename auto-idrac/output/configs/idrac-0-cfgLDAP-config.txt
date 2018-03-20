@@ -1,0 +1,1 @@
+["cfgLdapEnable=0", "cfgLdapServer=", "cfgLdapPort=636", "cfgLdapBaseDN=", "cfgLdapUserAttribute=", "cfgLdapGroupAttribute=", "cfgLdapGroupAttributeIsDN=1", "cfgLdapBindDN=", "# cfgLdapBindPassword=******** (Write-Only)", "cfgLdapSearchFilter=", "cfgLdapCertValidationEnable=1"]

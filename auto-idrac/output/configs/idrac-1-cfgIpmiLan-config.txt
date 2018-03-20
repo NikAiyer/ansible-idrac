@@ -1,0 +1,1 @@
+["cfgIpmiLanEnable=1", "cfgIpmiLanPrivilegeLimit=4", "cfgIpmiLanAlertEnable=0", "cfgIpmiEncryptionKey=0000000000000000000000000000000000000000", "cfgIpmiPetCommunityName=public"]

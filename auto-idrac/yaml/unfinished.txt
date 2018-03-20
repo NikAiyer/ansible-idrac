@@ -1,0 +1,12 @@
+getconfig
+setniccfg
+sshpkauth
+sslcsrgen
+sslEncryptionStrength
+testemail
+testkmsconnectivity
+testtrap
+usercertview
+vflashpartition
+vflashsd
+

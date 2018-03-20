@@ -1,0 +1,12 @@
+--- # Testing
+- hosts: idrac
+  connection: ssh
+  user: root
+  sudo: yes
+  gather_facts: no
+  tasks:
+    - name: Close all sessions
+      raw: racadm closessn -a
+      register: closessnAll
+    - debug: var=closessnAll
+    - local_action: copy content={{ closessnAll.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/closessn/{{ inventory_hostname }}-closessnAll.txt

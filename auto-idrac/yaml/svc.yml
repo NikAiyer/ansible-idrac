@@ -1,0 +1,12 @@
+--- # Testing
+- hosts: idrac
+  connection: ssh
+  user: root
+  sudo: yes
+  gather_facts: no
+  tasks:
+    - name: getsvctag -- display service tag information
+      raw: racadm getsvctag 
+      register: svc
+    - debug: var=svc
+    - local_action: copy content={{ svc.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/svc/{{ inventory_hostname }}-svc.txt

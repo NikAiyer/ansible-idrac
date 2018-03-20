@@ -1,0 +1,72 @@
+--- # Testing
+- hosts: idrac
+  connection: ssh
+  user: root
+  sudo: yes
+  gather_facts: no
+  tasks:
+    - name: getniccfg -- display current network settings
+      raw: racadm getniccfg
+      register: nic_config
+    - debug: var=nic_config
+    - local_action: copy content={{ nic_config.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/niccfg/{{ inventory_hostname }}-niccfg.txt
+    - name: getraclog -- display the RAC log
+      raw: racadm getraclog
+      register: raclog
+    - debug: var=raclog
+    - local_action: copy content={{ raclog.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/raclog/{{ inventory_hostname }}-raclog.txt
+    - name: getractime -- display the current RAC time 
+      raw: racadm getractime 
+      register: ractime
+    - debug: var=ractime
+    - local_action: copy content={{ ractime.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/ractime/{{ inventory_hostname }}-ractime.txt
+    - name: getsel -- display records from the System Event Log (SEL)
+      raw: racadm getsel 
+      register: sel
+    - debug: var=sel
+    - local_action: copy content={{ sel.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/sel/{{ inventory_hostname }}-sel.txt
+    - name: getssninfo -- display session information
+      raw: racadm getssninfo 
+      register: ssn
+    - debug: var=ssn
+    - local_action: copy content={{ ssn.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/ssn/{{ inventory_hostname }}-ssn.txt
+    - name: getsvctag -- display service tag information
+      raw: racadm getsvctag 
+      register: svc
+    - debug: var=svc
+    - local_action: copy content={{ svc.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/svc/{{ inventory_hostname }}-svc.txt
+    - name: getsysinfo -- display general RAC and system information
+      raw: racadm getsysinfo
+      register: system
+    - debug: var=system
+    - local_action: copy content={{ system.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/system/{{ inventory_hostname }}-sys.txt
+    - name: gettracelog -- display the RAC diagnostic trace log
+      raw: racadm gettracelog 
+      register: tracelog
+    - debug: var=tracelog
+    - local_action: copy content={{ tracelog.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/tracelog/{{ inventory_hostname }}-tracelog.txt
+    - name: getversion -- Display the current version details
+      raw: racadm getversion
+      register: version
+    - debug: var=version
+    - local_action: copy content={{ version.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/version/{{ inventory_hostname }}-version.txt
+    - name: getuscversion -- display the current USC version details
+      raw: racadm getuscversion 
+      register: uscversion
+    - debug: var=uscversion
+    - local_action: copy content={{ uscversion.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/uscversion/{{ inventory_hostname }}-uscversion.txt
+    - name: ifconfig -- display network interface information
+      raw: racadm ifconfig 
+      register: ifconfig
+    - debug: var=ifconfig
+    - local_action: copy content={{ ifconfig.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/ifconfig/{{ inventory_hostname }}-ifconfig.txt
+    - name: netstat -- display routing table and network statistics
+      raw: racadm netstat
+      register: netstat
+    - debug: var=netstat
+    - local_action: copy content={{ netstat.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/netstat/{{ inventory_hostname }}-netstat.txt
+    - name: racdump -- display RAC diagnostic information
+      raw: racadm racdump
+      register: racdump
+    - debug: var=racdump
+    - local_action: copy content={{ racdump.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/racdump/niccfg/{{ inventory_hostname }}-racdump.txt

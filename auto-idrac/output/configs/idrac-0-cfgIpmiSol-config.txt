@@ -1,0 +1,1 @@
+["cfgIpmiSolEnable=1", "cfgIpmiSolBaudRate=115200", "cfgIpmiSolMinPrivilege=4", "cfgIpmiSolAccumulateInterval=10", "cfgIpmiSolSendThreshold=255"]

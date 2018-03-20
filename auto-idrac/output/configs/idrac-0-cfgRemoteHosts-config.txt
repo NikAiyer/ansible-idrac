@@ -1,0 +1,1 @@
+["cfgRhostsSyslogEnable=1073845248", "cfgRhostsSyslogServer1=", "cfgRhostsSyslogServer2=", "cfgRhostsSyslogServer3=", "cfgRhostsSyslogPort=514", "cfgRhostsFwUpdateTftpEnable=1", "cfgRhostsFwUpdateIpAddr=0.0.0.0", "cfgRhostsFwUpdatePath=", "cfgRhostsSmtpServerIpAddr=0.0.0.0"]
