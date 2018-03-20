@@ -14,7 +14,7 @@
       default: No
   tasks:
     - name: sslcertview -- view SSL certificate information
-      raw: racadm  sslcertview -t {{ type }}{{ '-A' if header|bool else '' }}
+      raw: racadm sslcertview -t {{ type }}{{ '-A' if header|bool else '' }}
       register: sslcertview
     - debug: var=sslcertview
-    - local_action: copy content={{ sslcertview.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/sslcertview/{{ inventory_hostname }}-sslcertview.txt
+    - local_action: copy content={{ sslcertview.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/sslcertview/{{ inventory_hostname }}-sslcertview.txt

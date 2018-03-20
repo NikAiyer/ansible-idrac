@@ -1,0 +1,16 @@
+--- # Testing
+- hosts: idrac
+  connection: ssh
+  user: root
+  sudo: yes
+  gather_facts: no
+  vars_prompt:
+    - name: option
+      prompt: Do you want to initialize (0) the vFlash SD or get the its status (1)? 
+      private: no
+  tasks:
+    - name: vflashsd -- perform vFlash SD Card initialization
+      raw: racadm vflashsd {{ 'status' if option|bool else 'initialize'}}
+      register: vflashsd
+    - debug: var=vflashsd
+    - local_action: copy content={{ vflashsd.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/vflashsd/{{ inventory_hostname }}-vflashsd.txt

@@ -1,0 +1,23 @@
+--- # Testing
+- hosts: idrac
+  connection: ssh
+  user: root
+  sudo: yes
+  gather_facts: no
+  vars_prompt:
+    - name: type
+      prompt: What certificate type do you want to view? [1=server,2=CA certificate for Directory Service]
+      private: no
+    - name: header
+      prompt: Do you want to display headers/labels? (Yes or No)
+      private: no
+      default: No
+    - name: index
+      prompt: What is the index number of the user? Valid values are 2-16.
+      private: no
+  tasks:
+    - name: usercertview -- Displays the user certificate or user CA certificate that exists on iDRAC.
+      raw: racadm usercertview -t {{ type }}{{ '-A' if header|bool else '' }} -i {{ index }}
+      register: usercertview
+    - debug: var=usercertview
+    - local_action: copy content={{ usercertview.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/usercertview/{{ inventory_hostname }}-usercertview.txt

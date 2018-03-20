@@ -9,4 +9,4 @@
       raw: racadm getsysinfo
       register: system
     - debug: var=system
-    - local_action: copy content={{ system.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/system/{{ inventory_hostname }}-sys.txt
+    - local_action: copy content={{ system.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/system/{{ inventory_hostname }}-sys.txt

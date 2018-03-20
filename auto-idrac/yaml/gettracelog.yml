@@ -9,4 +9,4 @@
       raw: racadm gettracelog 
       register: tracelog
     - debug: var=tracelog
-    - local_action: copy content={{ tracelog.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/tracelog/{{ inventory_hostname }}-tracelog.txt
+    - local_action: copy content={{ tracelog.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/tracelog/{{ inventory_hostname }}-tracelog.txt

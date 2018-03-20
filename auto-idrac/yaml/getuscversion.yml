@@ -9,4 +9,4 @@
       raw: racadm getuscversion 
       register: uscversion
     - debug: var=uscversion
-    - local_action: copy content={{ uscversion.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/uscversion/{{ inventory_hostname }}-uscversion.txt
+    - local_action: copy content={{ uscversion.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/uscversion/{{ inventory_hostname }}-uscversion.txt

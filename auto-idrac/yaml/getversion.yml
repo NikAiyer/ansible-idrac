@@ -9,4 +9,4 @@
       raw: racadm getversion
       register: version
     - debug: var=version
-    - local_action: copy content={{ version.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/version/{{ inventory_hostname }}-version.txt
+    - local_action: copy content={{ version.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/version/{{ inventory_hostname }}-version.txt

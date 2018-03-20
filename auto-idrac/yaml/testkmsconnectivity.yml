@@ -1,0 +1,17 @@
+--- # Testing
+- hosts: idrac
+  connection: ssh
+  user: root
+  sudo: yes
+  gather_facts: no
+  vars_prompt:
+    - name: option
+      prompt: What profile number do you want to pick?  < 1= KMS Profile group 1, 2=KMS Profile group 2 >
+      private: no
+      default: 1
+  tasks:
+    - name: testkmsconnectivity -- test KMSConnectivity
+      raw: racadm testkmsconnectivity -p {{ option }}
+      register: testkmsconnectivity
+    - debug: var=testkmsconnectivity
+    - local_action: copy content={{ testkmsconnectivity.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output//{{ inventory_hostname }}-testkmsconnectivity.txt

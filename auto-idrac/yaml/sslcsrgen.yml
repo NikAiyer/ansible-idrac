@@ -12,6 +12,6 @@
   tasks:
     - name: sslcsrgen -- generate a certificate CSR from the RAC
       raw: racadm sslcsrgen {{ '-s' if option|bool else '-g' }}
-      register: 
-    - debug: var=
-    - local_action: copy content={{ .stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output//{{ inventory_hostname }}-.txt
+      register: sslcsrgen
+    - debug: var=sslcsrgen
+    - local_action: copy content={{ sslcsrgen.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/sslcsrgen/{{ inventory_hostname }}-sslcsrgen.txt
