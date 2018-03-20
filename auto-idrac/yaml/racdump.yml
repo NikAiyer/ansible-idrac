@@ -9,4 +9,4 @@
       raw: racadm racdump
       register: racdump
     - debug: var=racdump
-    - local_action: copy content={{ racdump.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/racdump/niccfg/{{ inventory_hostname }}-racdump.txt
+    - local_action: copy content={{ racdump.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/racdump/niccfg/{{ inventory_hostname }}-racdump.txt

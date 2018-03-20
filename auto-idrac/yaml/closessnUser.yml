@@ -13,4 +13,4 @@
       raw: racadm closessn -i {{ user }}
       register: closessnUser
     - debug: var=closessnUser
-    - local_action: copy content={{ closessnUser.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/closessn/{{ inventory_hostname }}-closessnUser.txt
+    - local_action: copy content={{ closessnUser.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/closessn/{{ inventory_hostname }}-closessnUser.txt

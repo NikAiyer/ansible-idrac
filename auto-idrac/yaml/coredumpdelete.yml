@@ -9,4 +9,4 @@
       raw: racadm coredumpdelete
       register: coredumpdelete
     - debug: var=coredumpdelete
-    - local_action: copy content={{ coredumpdelete.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/coredumpdelete/{{ inventory_hostname }}-coredumpdelete.txt
+    - local_action: copy content={{ coredumpdelete.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/coredumpdelete/{{ inventory_hostname }}-coredumpdelete.txt

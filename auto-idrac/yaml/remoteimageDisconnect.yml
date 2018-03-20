@@ -9,4 +9,4 @@
       raw: racadm remoteimage -d
       register: riDisconnect
     - debug: var=riDisconnect
-    - local_action: copy content={{ riDisconnect.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/remoteimage/{{ inventory_hostname }}-riDisconnect.txt
+    - local_action: copy content={{ riDisconnect.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/remoteimage/{{ inventory_hostname }}-riDisconnect.txt

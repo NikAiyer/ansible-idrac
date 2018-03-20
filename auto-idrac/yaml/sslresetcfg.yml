@@ -9,4 +9,4 @@
       raw: racadm sslresetcfg
       register: sslresetcfg
     - debug: var=sslresetcfg
-    - local_action: copy content={{ sslresetcfg.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/sslresetcfg/{{ inventory_hostname }}-sslresetcfg.txt
+    - local_action: copy content={{ sslresetcfg.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/sslresetcfg/{{ inventory_hostname }}-sslresetcfg.txt

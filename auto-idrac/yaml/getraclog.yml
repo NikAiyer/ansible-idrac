@@ -9,4 +9,4 @@
       raw: racadm getraclog
       register: raclog
     - debug: var=raclog
-    - local_action: copy content={{ raclog.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/raclog/{{ inventory_hostname }}-raclog.txt
+    - local_action: copy content={{ raclog.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/raclog/{{ inventory_hostname }}-raclog.txt

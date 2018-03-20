@@ -9,4 +9,4 @@
       raw: racadm clrraclog
       register: clrraclog
     - debug: var=clrraclog
-    - local_action: copy content={{ clrraclog.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/clrraclog/{{ inventory_hostname }}-crl.txt
+    - local_action: copy content={{ clrraclog.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/clrraclog/{{ inventory_hostname }}-crl.txt

@@ -9,4 +9,4 @@
       raw: racadm getsel 
       register: sel
     - debug: var=sel
-    - local_action: copy content={{ sel.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/sel/{{ inventory_hostname }}-sel.txt
+    - local_action: copy content={{ sel.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/sel/{{ inventory_hostname }}-sel.txt

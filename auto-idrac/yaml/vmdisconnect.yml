@@ -9,4 +9,4 @@
       raw: racadm vmdisconnect
       register: vmdisconnect
     - debug: var=vmdisconnect
-    - local_action: copy content={{ vmdisconnect.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/vmdisconnect/{{ inventory_hostname }}-vmdisconnect.txt
+    - local_action: copy content={{ vmdisconnect.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/vmdisconnect/{{ inventory_hostname }}-vmdisconnect.txt

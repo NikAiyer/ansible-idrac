@@ -9,4 +9,4 @@
       raw: racadm getniccfg
       register: nic_config
     - debug: var=nic_config
-    - local_action: copy content={{ nic_config.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/niccfg/{{ inventory_hostname }}-niccfg.txt
+    - local_action: copy content={{ nic_config.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/niccfg/{{ inventory_hostname }}-niccfg.txt

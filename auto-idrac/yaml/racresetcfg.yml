@@ -14,4 +14,4 @@
       raw: racadm racresetcfg {{ '-f' if force|bool else '' }}
       register: racresetcfg
     - debug: var=racresetcfg
-    - local_action: copy content={{ racresetcfg.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/racresetcfg/{{ inventory_hostname }}-racresetcfg.txt
+    - local_action: copy content={{ racresetcfg.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/racresetcfg/{{ inventory_hostname }}-racresetcfg.txt

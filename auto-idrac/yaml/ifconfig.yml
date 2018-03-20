@@ -9,4 +9,4 @@
       raw: racadm ifconfig 
       register: ifconfig
     - debug: var=ifconfig
-    - local_action: copy content={{ ifconfig.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/ifconfig/{{ inventory_hostname }}-ifconfig.txt
+    - local_action: copy content={{ ifconfig.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/ifconfig/{{ inventory_hostname }}-ifconfig.txt

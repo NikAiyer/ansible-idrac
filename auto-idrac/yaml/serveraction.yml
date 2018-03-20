@@ -14,4 +14,4 @@
       raw: racadm serveraction {{ action }}
       register: serveraction
     - debug: var=serveraction
-    - local_action: copy content={{ serveraction.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/serveraction/{{ inventory_hostname }}-serveraction.txt
+    - local_action: copy content={{ serveraction.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/serveraction/{{ inventory_hostname }}-serveraction.txt

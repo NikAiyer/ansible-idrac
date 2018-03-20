@@ -9,4 +9,4 @@
       raw: racadm getled
       register: getled
     - debug: var=getled
-    - local_action: copy content={{ getled.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/getled/{{ inventory_hostname }}-getled.txt
+    - local_action: copy content={{ getled.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/getled/{{ inventory_hostname }}-getled.txt

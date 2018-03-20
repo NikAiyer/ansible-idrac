@@ -13,4 +13,4 @@
       raw: racadm ping {{ ip_address }}
       register: ping
     - debug: var=ping
-    - local_action: copy content={{ ping.stdout_lines }} dest=/root/ansible-idrac/idrac-auto/output/ping/{{ inventory_hostname }}-ping.txt
+    - local_action: copy content={{ ping.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/ping/{{ inventory_hostname }}-ping.txt
