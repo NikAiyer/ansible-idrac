@@ -9,4 +9,9 @@
       raw: racadm getsel 
       register: sel
     - debug: var=sel
-    - local_action: copy content={{ sel.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/sel/{{ inventory_hostname }}-sel.txt
+    - name: getractime -- display the current RAC time 
+      raw: racadm getractime -d
+      register: ractime
+    - debug: var=ractime
+    - local_action: copy content={{ sel.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/sel/{{ inventory_hostname }}-sel-{{ item }}.txt
+      with_items: "{{ ractime.stdout_lines }}"

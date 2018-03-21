@@ -9,4 +9,9 @@
       raw: racadm remoteimage -d
       register: riDisconnect
     - debug: var=riDisconnect
-    - local_action: copy content={{ riDisconnect.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/remoteimage/{{ inventory_hostname }}-riDisconnect.txt
+    - name: getractime -- display the current RAC time 
+      raw: racadm getractime -d
+      register: ractime
+    - debug: var=ractime
+    - local_action: copy content={{ riDisconnect.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/remoteimage/{{ inventory_hostname }}-riDisconnect-{{ item }}.txt
+      with_items: "{{ ractime.stdout_lines }}"

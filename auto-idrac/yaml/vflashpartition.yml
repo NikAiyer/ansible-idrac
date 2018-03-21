@@ -1,0 +1,25 @@
+--- # Testing
+- hosts: idrac
+  connection: ssh
+  user: root
+  sudo: yes
+  gather_facts: no
+  vars_prompt:
+    - name: reset
+      prompt: Do you want to do a soft(default) or hard reset?
+      private: no
+      default: soft
+    - name: force
+      prompt: Do you want to force reset? (Yes or No)
+      private: no
+      default: No
+  tasks:
+    - name: racreset -- perform a RAC reset operation
+      raw: racadm racreset {{ '-f' if force|bool else '' }} {{ reset }}
+      register: racreset
+    - debug: var=racreset
+    - name: getractime -- display the current RAC time 
+      raw: racadm getractime -d
+      register: ractime
+    - debug: var=ractime
+    - local_action: copy content={{ racreset.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/racreset/{{ inventory_hostname }}-racreset.txt

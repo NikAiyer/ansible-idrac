@@ -9,4 +9,9 @@
       raw: racadm getuscversion 
       register: uscversion
     - debug: var=uscversion
-    - local_action: copy content={{ uscversion.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/uscversion/{{ inventory_hostname }}-uscversion.txt
+    - name: getractime -- display the current RAC time 
+      raw: racadm getractime -d
+      register: ractime
+    - debug: var=ractime
+    - local_action: copy content={{ uscversion.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/uscversion/{{ inventory_hostname }}-uscversion-{{ item }}.txt
+      with_items: "{{ ractime.stdout_lines }}"

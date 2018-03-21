@@ -14,4 +14,9 @@
       raw: racadm testkmsconnectivity -p {{ option }}
       register: testkmsconnectivity
     - debug: var=testkmsconnectivity
-    - local_action: copy content={{ testkmsconnectivity.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output//{{ inventory_hostname }}-testkmsconnectivity.txt
+    - name: getractime -- display the current RAC time 
+      raw: racadm getractime -d
+      register: ractime
+    - debug: var=ractime
+    - local_action: copy content={{ testkmsconnectivity.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output//{{ inventory_hostname }}-testkmsconnectivity-{{ item }}.txt
+      with_items: "{{ ractime.stdout_lines }}"

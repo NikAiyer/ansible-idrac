@@ -1,0 +1,21 @@
+--- # Testing
+- hosts: idrac
+  connection: ssh
+  user: root
+  sudo: yes
+  gather_facts: no
+  vars_prompt:
+    - name: options
+      prompt: Do you want to enable DHCP (0), DHCP6(1), or enable/disable the NIC(2)?
+      private: no
+  tasks:
+    - name: setniccfg -- modify network configuration properties
+      raw: racadm {{'-d' if options == '0' else '-d6' if options == '1' else '-o' if options == '2' }}
+      register: NIC
+    - debug: var=NIC
+    - name: getractime -- display the current RAC time 
+      raw: racadm getractime -d
+      register: ractime
+    - debug: var=ractime
+    - local_action: copy content={{ NIC.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/setniccfg/{{ inventory_hostname }}-NIC-{{ item }}.txt
+      with_items: "{{ ractime.stdout_lines }}"

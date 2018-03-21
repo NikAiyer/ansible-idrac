@@ -1,5 +1,5 @@
 --- # Testing
-- hosts: idrac
+- hosts: idrac-1
   connection: ssh
   user: root
   sudo: yes
@@ -9,4 +9,9 @@
       raw: racadm arp 
       register: arp
     - debug: var=arp
-    - local_action: copy content={{ arp.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/arp/{{ inventory_hostname }}-arp.txt
+    - name: getractime -- display the current RAC time 
+      raw: racadm getractime -d
+      register: ractime
+    - debug: var=ractime
+    - local_action: copy content={{ arp.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/arp/{{ inventory_hostname }}-arp-{{ item }}.txt
+      with_items: "{{ ractime.stdout_lines }}"

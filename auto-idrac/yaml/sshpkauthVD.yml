@@ -1,0 +1,24 @@
+--- # Testing
+- hosts: idrac
+  connection: ssh
+  user: root
+  sudo: yes
+  gather_facts: no
+  vars_prompt:
+    - name: option
+      prompt: Do you want to view (0) or delete (1) a key?
+      private: no
+      default: 0
+    - name: user
+      prompt: Pick a user index. (Must be between 2 and 16)
+      private: no
+    - name: key
+      prompt: Pick a key index. (Must be between 1 and 4 or "all")
+      private: no  
+  tasks:
+    - name: sshpkauth -- manage SSH PK authentication keys on the RAC
+      raw: racadm sshpkauth {{ '-d' if option|bool else '-v' }} -i {{ user }} -k {{ key }}
+      register: sshpkauthVD
+    - debug: var= sshpkauthVD
+    - local_action: copy content={{ sshpkauthVD.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/sshpkauth/{{ inventory_hostname }}-sshpkauthVD-{{ item }}.txt
+      with_items: "{{ ractime.stdout_lines }}"

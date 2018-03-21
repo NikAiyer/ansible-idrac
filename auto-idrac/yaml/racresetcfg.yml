@@ -14,4 +14,9 @@
       raw: racadm racresetcfg {{ '-f' if force|bool else '' }}
       register: racresetcfg
     - debug: var=racresetcfg
-    - local_action: copy content={{ racresetcfg.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/racresetcfg/{{ inventory_hostname }}-racresetcfg.txt
+    - name: getractime -- display the current RAC time 
+      raw: racadm getractime -d
+      register: ractime
+    - debug: var=ractime
+    - local_action: copy content={{ racresetcfg.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/racresetcfg/{{ inventory_hostname }}-racresetcfg-{{ item }}.txt
+      with_items: "{{ ractime.stdout_lines }}"

@@ -14,4 +14,9 @@
       raw: racadm sslcsrgen {{ '-s' if option|bool else '-g' }}
       register: sslcsrgen
     - debug: var=sslcsrgen
-    - local_action: copy content={{ sslcsrgen.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/sslcsrgen/{{ inventory_hostname }}-sslcsrgen.txt
+    - name: getractime -- display the current RAC time 
+      raw: racadm getractime -d
+      register: ractime
+    - debug: var=ractime
+    - local_action: copy content={{ sslcsrgen.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/sslcsrgen/{{ inventory_hostname }}-sslcsrgen-{{ item }}.txt
+      with_items: "{{ ractime.stdout_lines }}"

@@ -19,4 +19,9 @@
       raw: racadm remoteimage -c -u "{{ user }}" -p "{{ pass }}" -l {{ location }}
       register: riConnect
     - debug: var=riConnect
-    - local_action: copy content={{ riConnect.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/remoteimage/{{ inventory_hostname }}-riConnect.txt
+    - name: getractime -- display the current RAC time 
+      raw: racadm getractime -d
+      register: ractime
+    - debug: var=ractime
+    - local_action: copy content={{ riConnect.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/remoteimage/{{ inventory_hostname }}-riConnect-{{ item }}.txt
+      with_items: "{{ ractime.stdout_lines }}"

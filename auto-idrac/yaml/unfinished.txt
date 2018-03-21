@@ -1,7 +1,4 @@
 getconfig
-setniccfg
-sshpkauth
-sslEncryptionStrength
 vflashpartition
 
 IDRAC8 (either add or update)
@@ -21,7 +18,6 @@ get
 gethostnetworkinterface
 getniccfg
 getraclog
-getractime
 getsel
 getsensorinfo
 getssninfo

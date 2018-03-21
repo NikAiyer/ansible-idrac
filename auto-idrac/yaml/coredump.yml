@@ -9,4 +9,9 @@
       raw: racadm coredump
       register: coredump
     - debug: var=coredump
-    - local_action: copy content={{ coredump.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/coredump/{{ inventory_hostname }}-coredump.txt
+    - name: getractime -- display the current RAC time 
+      raw: racadm getractime -d
+      register: ractime
+    - debug: var=ractime
+    - local_action: copy content={{ coredump.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/coredump/{{ inventory_hostname }}-coredump-{{ item }}.txt
+      with_items: "{{ ractime.stdout_lines }}"

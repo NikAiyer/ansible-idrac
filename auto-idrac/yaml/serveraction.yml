@@ -14,4 +14,9 @@
       raw: racadm serveraction {{ action }}
       register: serveraction
     - debug: var=serveraction
-    - local_action: copy content={{ serveraction.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/serveraction/{{ inventory_hostname }}-serveraction.txt
+    - name: getractime -- display the current RAC time 
+      raw: racadm getractime -d
+      register: ractime
+    - debug: var=ractime
+    - local_action: copy content={{ serveraction.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/serveraction/{{ inventory_hostname }}-serveraction-{{ item }}.txt
+      with_items: "{{ ractime.stdout_lines }}"

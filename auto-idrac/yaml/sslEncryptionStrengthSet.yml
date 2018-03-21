@@ -1,0 +1,26 @@
+--- # Testing
+- hosts: idrac
+  connection: ssh
+  user: root
+  sudo: yes
+  gather_facts: no
+  vars_prompt:
+    - name: strength
+      prompt: What strength do you want to set the ssl encryption to? <0-3> 0= auto negotiate, 1= 128bit or higher, 2= 168bit or highera, 3= 256bit or higher.
+      private: no
+      default: 0
+    - name: restart
+      prompt: Do you want to restart the webserver? (Yes or No)
+      private: no
+      default: No
+  tasks:
+    - name:  sslEncryptionStrengthSet -- Modify the SSL Encryption strength.
+      raw: racadm sslEncryptionStrength set {{ strength }} {{'--webserverrestart' if restart|bool else ''}}
+      register: sslESSet
+    - debug: var=sslESSet
+    - name: getractime -- display the current RAC time 
+      raw: racadm getractime -d
+      register: ractime
+    - debug: var=ractime
+    - local_action: copy content={{ sslESSet.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/sslEncryptionStrength/{{ inventory_hostname }}-sslESSet-{{ item }}.txt
+      with_items: "{{ ractime.stdout_lines }}"

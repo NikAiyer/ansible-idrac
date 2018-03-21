@@ -1,0 +1,23 @@
+--- # Testing
+- hosts: idrac
+  connection: ssh
+  user: root
+  sudo: yes
+  gather_facts: no
+  vars_prompt:
+    - name: ipv4
+      prompt: What is the IPv4 address
+      private: no
+    - name: subnet
+      prompt: What is the subnet mask?
+      private: no
+    - name: gateway
+      prompt: What is the IPv4 gateway?
+      private: no
+  tasks:
+    - name: setniccfg -- modify network configuration properties
+      raw: racadm setniccfg {{ ipv4 }} {{ subnet }} {{ gateway }}
+      register: ipv4
+    - debug: var=ipv4
+    - local_action: copy content={{ ipv4.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/setniccfg/{{ inventory_hostname }}-ipv4-{{ item }}.txt
+      with_items: "{{ ractime.stdout_lines }}"

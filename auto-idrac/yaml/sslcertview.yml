@@ -17,4 +17,9 @@
       raw: racadm sslcertview -t {{ type }}{{ '-A' if header|bool else '' }}
       register: sslcertview
     - debug: var=sslcertview
-    - local_action: copy content={{ sslcertview.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/sslcertview/{{ inventory_hostname }}-sslcertview.txt
+    - name: getractime -- display the current RAC time 
+      raw: racadm getractime -d
+      register: ractime
+    - debug: var=ractime
+    - local_action: copy content={{ sslcertview.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/sslcertview/{{ inventory_hostname }}-sslcertview-{{ item }}.txt
+      with_items: "{{ ractime.stdout_lines }}"

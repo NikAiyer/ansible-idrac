@@ -13,4 +13,9 @@
       raw: racadm closessn -i {{ id }}
       register: closessnID
     - debug: var=closessnID
-    - local_action: copy content={{ closessnID.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/closessn/{{ inventory_hostname }}-closessnID.txt
+    - name: getractime -- display the current RAC time 
+      raw: racadm getractime -d
+      register: ractime
+    - debug: var=ractime
+    - local_action: copy content={{ closessnID.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/closessn/{{ inventory_hostname }}-closessnID-{{ item }}.txt
+      with_items: "{{ ractime.stdout_lines }}"

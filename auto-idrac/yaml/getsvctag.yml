@@ -9,4 +9,9 @@
       raw: racadm getsvctag 
       register: svc
     - debug: var=svc
-    - local_action: copy content={{ svc.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/svc/{{ inventory_hostname }}-svc.txt
+    - name: getractime -- display the current RAC time 
+      raw: racadm getractime -d
+      register: ractime
+    - debug: var=ractime
+    - local_action: copy content={{ svc.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/svc/{{ inventory_hostname }}-svc-{{ item }}.txt
+      with_items: "{{ ractime.stdout_lines }}"

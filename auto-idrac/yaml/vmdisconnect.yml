@@ -9,4 +9,9 @@
       raw: racadm vmdisconnect
       register: vmdisconnect
     - debug: var=vmdisconnect
-    - local_action: copy content={{ vmdisconnect.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/vmdisconnect/{{ inventory_hostname }}-vmdisconnect.txt
+    - name: getractime -- display the current RAC time 
+      raw: racadm getractime -d
+      register: ractime
+    - debug: var=ractime
+    - local_action: copy content={{ vmdisconnect.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/vmdisconnect/{{ inventory_hostname }}-vmdisconnect-{{ item }}.txt
+      with_items: "{{ ractime.stdout_lines }}"

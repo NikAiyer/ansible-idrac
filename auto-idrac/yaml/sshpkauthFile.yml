@@ -1,0 +1,27 @@
+--- # Testing
+- hosts: idrac
+  connection: ssh
+  user: root
+  sudo: yes
+  gather_facts: no
+  vars_prompt:
+    - name: file
+      prompt: Please enter the location of the file for the PKA key.
+      private: no
+    - name: user
+      prompt: Pick a user index. (Must be between 2 and 16)
+      private: no
+    - name: key
+      prompt: Pick a key index. (Must be between 1 and 4 or "all")
+      private: no  
+  tasks:
+    - name: sshpkauth -- manage SSH PK authentication keys on the RAC
+      raw: racadm sshpkauth -i {{ user }} -k {{ key }} -f {{ file }}
+      register: sshpkauthFile
+    - debug: var= sshpkauthFile
+    - name: getractime -- display the current RAC time 
+      raw: racadm getractime -d
+      register: ractime
+    - debug: var=ractime
+    - local_action: copy content={{ sshpkauthFile.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/sshpkauth/{{ inventory_hostname }}-sshpkauthFile-{{ item }}.txt
+      with_items: "{{ ractime.stdout_lines }}"

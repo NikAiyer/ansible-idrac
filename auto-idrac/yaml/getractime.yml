@@ -4,9 +4,14 @@
   user: root
   sudo: yes
   gather_facts: no
+  vars_prompt:
+    - name: format
+      prompt: Do you want to display time in YYYYYMMDDHHMMSS format? (Yes or No)
+      private: no
+      default: No
   tasks:
     - name: getractime -- display the current RAC time 
-      raw: racadm getractime 
+      raw: racadm getractime {{ '-d' if format|bool else '' }}
       register: ractime
     - debug: var=ractime
     - local_action: copy content={{ ractime.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/ractime/{{ inventory_hostname }}-ractime.txt

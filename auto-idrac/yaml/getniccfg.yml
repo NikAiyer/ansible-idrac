@@ -9,4 +9,9 @@
       raw: racadm getniccfg
       register: nic_config
     - debug: var=nic_config
-    - local_action: copy content={{ nic_config.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/niccfg/{{ inventory_hostname }}-niccfg.txt
+    - name: getractime -- display the current RAC time 
+      raw: racadm getractime -d
+      register: ractime
+    - debug: var=ractime
+    - local_action: copy content={{ nic_config.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/niccfg/{{ inventory_hostname }}-niccfg-{{ item }}.txt
+      with_items: "{{ ractime.stdout_lines }}"

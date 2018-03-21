@@ -1,0 +1,27 @@
+--- # Testing
+- hosts: idrac
+  connection: ssh
+  user: root
+  sudo: yes
+  gather_facts: no
+  vars_prompt:
+    - name: ipv6
+      prompt: What is the IPv6 address
+      private: no
+    - name: prefix
+      prompt: What is the prefix length?
+      private: no
+    - name: gateway
+      prompt: What is the IPv6 gateway?
+      private: no
+  tasks:
+    - name: setniccfg -- modify network configuration properties
+      raw: racadm setniccfg {{ ipv6 }} {{ prefix }} {{ gateway }}
+      register: ipv6
+    - debug: var=ipv6
+    - name: getractime -- display the current RAC time 
+      raw: racadm getractime -d
+      register: ractime
+    - debug: var=ractime
+    - local_action: copy content={{ ipv6.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/setniccfg/{{ inventory_hostname }}-ipv6-{{ item }}.txt
+      with_items: "{{ ractime.stdout_lines }}"
