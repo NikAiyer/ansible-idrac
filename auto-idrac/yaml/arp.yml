@@ -14,4 +14,6 @@
       register: ractime
     - debug: var=ractime
     - local_action: copy content={{ arp.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/arp/{{ inventory_hostname }}-arp-{{ item }}.txt
-      with_items: "{{ ractime.stdout_lines }}"
+      with_nested:
+       - "{{ ractime.stdout_lines }}"
+       - "{{ arp.stdout_lines }}"
