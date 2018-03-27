@@ -17,5 +17,8 @@
       raw: racadm getractime -d
       register: ractime
     - debug: var=ractime
-    - local_action: copy content={{ testemail.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/testemail/{{ inventory_hostname }}-testemail-{{ item }}.txt
-      with_items: "{{ ractime.stdout_lines }}"
+    - shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/testemail/{{ inventory_hostname }}-testemail-{{ item[0] }}.txt
+      delegate_to: localhost
+      with_nested:
+       - "{{ ractime.stdout_lines }}"
+       - "{{ testemail.stdout_lines }}"

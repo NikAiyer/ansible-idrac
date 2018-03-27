@@ -20,5 +20,8 @@
       raw: racadm sshpkauth {{ '-d' if option|bool else '-v' }} -i {{ user }} -k {{ key }}
       register: sshpkauthVD
     - debug: var= sshpkauthVD
-    - local_action: copy content={{ sshpkauthVD.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/sshpkauth/{{ inventory_hostname }}-sshpkauthVD-{{ item }}.txt
-      with_items: "{{ ractime.stdout_lines }}"
+    - shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/sshpkauth/{{ inventory_hostname }}-sshpkauthVD-{{ item[0] }}.txt
+      delegate_to: localhost
+      with_nested:
+       - "{{ ractime.stdout_lines }}"
+       - "{{ sshpkauthVD.stdout_lines }}"

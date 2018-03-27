@@ -23,5 +23,8 @@
       raw: racadm getractime -d
       register: ractime
     - debug: var=ractime
-    - local_action: copy content={{ riConnect.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/remoteimage/{{ inventory_hostname }}-riConnect-{{ item }}.txt
-      with_items: "{{ ractime.stdout_lines }}"
+    - shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/remoteimage/{{ inventory_hostname }}-riConnect-{{ item[0] }}.txt
+      delegate_to: localhost
+      with_nested:
+       - "{{ ractime.stdout_lines }}"
+       - "{{ riConnect.stdout_lines }}"

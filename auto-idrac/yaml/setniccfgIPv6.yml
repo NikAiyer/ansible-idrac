@@ -17,11 +17,14 @@
   tasks:
     - name: setniccfg -- modify network configuration properties
       raw: racadm setniccfg {{ ipv6 }} {{ prefix }} {{ gateway }}
-      register: ipv6
-    - debug: var=ipv6
+      register: IPv6
+    - debug: var=IPv6
     - name: getractime -- display the current RAC time 
       raw: racadm getractime -d
       register: ractime
     - debug: var=ractime
-    - local_action: copy content={{ ipv6.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/setniccfg/{{ inventory_hostname }}-ipv6-{{ item }}.txt
-      with_items: "{{ ractime.stdout_lines }}"
+    - shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/setniccfg/{{ inventory_hostname }}-IPv6-{{ item[0] }}.txt
+      delegate_to: localhost
+      with_nested:
+       - "{{ ractime.stdout_lines }}"
+       - "{{ IPv6.stdout_lines }}"

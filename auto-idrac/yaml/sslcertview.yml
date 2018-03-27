@@ -21,5 +21,8 @@
       raw: racadm getractime -d
       register: ractime
     - debug: var=ractime
-    - local_action: copy content={{ sslcertview.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/sslcertview/{{ inventory_hostname }}-sslcertview-{{ item }}.txt
-      with_items: "{{ ractime.stdout_lines }}"
+    - shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/sslcertview/{{ inventory_hostname }}-sslcertview-{{ item[0] }}.txt
+      delegate_to: localhost
+      with_nested:
+       - "{{ ractime.stdout_lines }}"
+       - "{{ sslcertview.stdout_lines }}"

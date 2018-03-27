@@ -17,7 +17,10 @@
   tasks:
     - name: setniccfg -- modify network configuration properties
       raw: racadm setniccfg {{ ipv4 }} {{ subnet }} {{ gateway }}
-      register: ipv4
-    - debug: var=ipv4
-    - local_action: copy content={{ ipv4.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/setniccfg/{{ inventory_hostname }}-ipv4-{{ item }}.txt
-      with_items: "{{ ractime.stdout_lines }}"
+      register: IPv4
+    - debug: var=IPv4
+    - shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/setniccfg/{{ inventory_hostname }}-IPv4-{{ item[0] }}.txt
+      delegate_to: localhost
+      with_nested:
+       - "{{ ractime.stdout_lines }}"
+       - "{{ IPv4.stdout_lines }}"
