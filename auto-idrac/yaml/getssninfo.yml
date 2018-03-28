@@ -13,8 +13,6 @@
       raw: racadm getractime -d
       register: ractime
     - debug: var=ractime
-    - local_action: copy content={{ ssn.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/ssn/{{ inventory_hostname }}-ssn-{{ item }}.txt
-      with_items: "{{ ractime.stdout_lines }}"
     - shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/ssn/{{ inventory_hostname }}-ssn-{{ item[0] }}.txt
       delegate_to: localhost
       with_nested:

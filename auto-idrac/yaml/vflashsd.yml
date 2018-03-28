@@ -17,8 +17,6 @@
       raw: racadm getractime -d
       register: ractime
     - debug: var=ractime
-    - local_action: copy content={{ vflashsd.stdout_lines }} dest=/root/ansible-idrac/auto-idrac/output/vflashsd/{{ inventory_hostname }}-vflashsd-{{ item }}.txt
-      with_items: "{{ ractime.stdout_lines }}"
     - shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/vflashsd/{{ inventory_hostname }}-vflashsd-{{ item[0] }}.txt
       delegate_to: localhost
       with_nested:
