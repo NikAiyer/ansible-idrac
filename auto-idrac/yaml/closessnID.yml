@@ -9,6 +9,9 @@
       prompt: What is the ID of the session you want to close?
       private: no
   tasks:
+    - name: make directory if not present
+      shell: mkdir -p /root/ansible-idrac/auto-idrac/output/closessn/{{ inventory_hostname }}
+      delegate_to: localhost
     - name: CLose sessions of certain ID
       raw: racadm closessn -i {{ id }}
       register: closessnID
@@ -17,7 +20,7 @@
       raw: racadm getractime -d
       register: ractime
     - debug: var=ractime
-    - shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/closessn/{{ inventory_hostname }}-closessnID-{{ item[0] }}.txt
+    - shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/closessn/{{ inventory_hostname }}/closessnID-{{ item[0] }}.txt
       delegate_to: localhost
       with_nested:
        - "{{ ractime.stdout_lines }}"

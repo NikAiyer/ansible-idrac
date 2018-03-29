@@ -9,6 +9,9 @@
       prompt: What is the index of the email alert you want to test? (Only index values 1 - 4 are permitted)
       private: no
   tasks:
+    - name: make directory if not present
+      shell: mkdir -p /root/ansible-idrac/auto-idrac/output/testemail/{{ inventory_hostname }}
+      delegate_to: localhost
     - name: testemail -- test RAC e-mail notifications
       raw: racadm testemail -i {{ index }}
       register: testemail
@@ -17,7 +20,7 @@
       raw: racadm getractime -d
       register: ractime
     - debug: var=ractime
-    - shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/testemail/{{ inventory_hostname }}-testemail-{{ item[0] }}.txt
+    - shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/testemail/{{ inventory_hostname }}/testemail-{{ item[0] }}.txt
       delegate_to: localhost
       with_nested:
        - "{{ ractime.stdout_lines }}"

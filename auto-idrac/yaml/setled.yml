@@ -10,11 +10,14 @@
       private: no
       default: 0
   tasks:
+    - name: make directory if not present
+      shell: mkdir -p /root/ansible-idrac/auto-idrac/output/led/set/{{ inventory_hostname }}
+      delegate_to: localhost
     - name: setled -- Set the state of the LED on a module.
       raw: racadm setled -l {{ ledstate }}
       register: ledState
     - debug: var=ledState
-    - shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/ledState/{{ inventory_hostname }}-ledState-{{ item[0] }}.txt
+    - shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/led/set/{{ inventory_hostname }}/setled-{{ item[0] }}.txt
       delegate_to: localhost
       with_nested:
        - "{{ ractime.stdout_lines }}"

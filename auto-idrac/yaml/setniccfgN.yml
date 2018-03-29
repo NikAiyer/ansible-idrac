@@ -9,6 +9,10 @@
       prompt: Do you want to enable DHCP (0), DHCP6(1), or enable/disable the NIC(2)?
       private: no
   tasks:
+
+    - name: make directory if not present
+      shell: mkdir -p /root/ansible-idrac/auto-idrac/output/setniccfg/NIC/{{ inventory_hostname }}
+      delegate_to: localhost
     - name: setniccfg -- modify network configuration properties
       raw: racadm {{'-d' if options == '0' else '-d6' if options == '1' else '-o' if options == '2' }}
       register: NIC
@@ -17,7 +21,7 @@
       raw: racadm getractime -d
       register: ractime
     - debug: var=ractime
-    - shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/setniccfg/{{ inventory_hostname }}-NIC-{{ item[0] }}.txt
+    - shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/setniccfg/NIC/{{ inventory_hostname }}/NIC-{{ item[0] }}.txt
       delegate_to: localhost
       with_nested:
        - "{{ ractime.stdout_lines }}"

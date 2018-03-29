@@ -14,6 +14,9 @@
       private: no
       default: No
   tasks:
+    - name: make directory if not present
+      shell: mkdir -p /root/ansible-idrac/auto-idrac/output/racreset/{{ inventory_hostname }}
+      delegate_to: localhost
     - name: racreset -- perform a RAC reset operation
       raw: racadm racreset {{ '-f' if force|bool else '' }} {{ reset }}
       register: racreset
@@ -22,7 +25,7 @@
       raw: racadm getractime -d
       register: ractime
     - debug: var=ractime
-    - shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/racreset/{{ inventory_hostname }}-racreset-{{ item[0] }}.txt
+    - shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/racreset/{{ inventory_hostname }}/racreset-{{ item[0] }}.txt
       delegate_to: localhost
       with_nested:
        - "{{ ractime.stdout_lines }}"

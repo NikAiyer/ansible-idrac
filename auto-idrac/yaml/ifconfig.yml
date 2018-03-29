@@ -5,6 +5,9 @@
   sudo: yes
   gather_facts: no
   tasks:
+    - name: make directory if not present
+      shell: mkdir -p /root/ansible-idrac/auto-idrac/output/ifconfig/{{ inventory_hostname }}
+      delegate_to: localhost
     - name: ifconfig -- display network interface information
       raw: racadm ifconfig 
       register: ifconfig
@@ -13,7 +16,7 @@
       raw: racadm getractime -d
       register: ractime
     - debug: var=ractime
-    - shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/ifconfig/{{ inventory_hostname }}-ifconfig-{{ item[0] }}.txt
+    - shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/ifconfig/{{ inventory_hostname }}/ifconfig-{{ item[0] }}.txt
       delegate_to: localhost
       with_nested:
        - "{{ ractime.stdout_lines }}"

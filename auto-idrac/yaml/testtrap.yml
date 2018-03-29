@@ -9,6 +9,9 @@
       prompt: What is the index of the RAC SNMP trap notification you want to test? (Only index values 1 - 4 are permitted)
       private: no
   tasks:
+    - name: make directory if not present
+      shell: mkdir -p /root/ansible-idrac/auto-idrac/output/testtrap/{{ inventory_hostname }}
+      delegate_to: localhost
     - name: testtrap -- test RAC SNMP trap notifications
       raw: racadm testtrap -i {{ index }}
       register: testtrap
@@ -17,7 +20,7 @@
       raw: racadm getractime -d
       register: ractime
     - debug: var=ractime
-    - shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/testtrap/{{ inventory_hostname }}-testtrap-{{ item[0] }}.txt
+    - shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/testtrap/{{ inventory_hostname }}/testtrap-{{ item[0] }}.txt
       delegate_to: localhost
       with_nested:
        - "{{ ractime.stdout_lines }}"

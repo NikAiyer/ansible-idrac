@@ -5,17 +5,6 @@
   sudo: yes
   gather_facts: no
   tasks:
-    - name: make directory if not present
-      shell: mkdir -p /root/ansible-idrac/auto-idrac/output/configs/{{ inventory_hostname }}
-      delegate_to: localhost
-    - name: getconfig -- display RAC configuration properties
-      raw: racadm getconfig -h
-      register: racadm_config
-    - debug: var=racadm_config
-    - name: copy to configList
-      shell: echo '{{ item }}' >> /root/ansible-idrac/auto-idrac/output/configs/{{ inventory_hostname }}/configList.txt
-      delegate_to: localhost
-      with_items: "{{ racadm_config.stdout_lines }}"
     - name: getconfig -- display individual RAC configuration properties
       raw: racadm getconfig -g {{ item }}
       with_items: "{{ racadm_config.stdout_lines }}"

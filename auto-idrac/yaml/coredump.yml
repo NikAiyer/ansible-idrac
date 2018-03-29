@@ -5,6 +5,9 @@
   sudo: yes
   gather_facts: no
   tasks:
+    - name: make directory if not present
+      shell: mkdir -p /root/ansible-idrac/auto-idrac/output/coredump/{{ inventory_hostname }}
+      delegate_to: localhost
     - name: coredump -- display the last RAC coredump
       raw: racadm coredump
       register: coredump
@@ -13,7 +16,7 @@
       raw: racadm getractime -d
       register: ractime
     - debug: var=ractime
-    - shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/coredump/{{ inventory_hostname }}-coredump-{{ item[0] }}.txt
+    - shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/coredump/{{ inventory_hostname }}/coredump-{{ item[0] }}.txt
       delegate_to: localhost
       with_nested:
        - "{{ ractime.stdout_lines }}"

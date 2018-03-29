@@ -15,6 +15,9 @@
       prompt: What is the IPv6 gateway?
       private: no
   tasks:
+    - name: make directory if not present
+      shell: mkdir -p /root/ansible-idrac/auto-idrac/output/setniccfg/IPV6/{{ inventory_hostname }}
+      delegate_to: localhost
     - name: setniccfg -- modify network configuration properties
       raw: racadm setniccfg {{ ipv6 }} {{ prefix }} {{ gateway }}
       register: IPv6
@@ -23,7 +26,7 @@
       raw: racadm getractime -d
       register: ractime
     - debug: var=ractime
-    - shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/setniccfg/{{ inventory_hostname }}-IPv6-{{ item[0] }}.txt
+    - shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/setniccfg/IPV6/{{ inventory_hostname }}/IPv6-{{ item[0] }}.txt
       delegate_to: localhost
       with_nested:
        - "{{ ractime.stdout_lines }}"

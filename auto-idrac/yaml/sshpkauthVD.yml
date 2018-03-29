@@ -16,11 +16,14 @@
       prompt: Pick a key index. (Must be between 1 and 4 or "all")
       private: no  
   tasks:
+    - name: make directory if not present
+      shell: mkdir -p /root/ansible-idrac/auto-idrac/output/sshpkauth/{{ inventory_hostname }}
+      delegate_to: localhost
     - name: sshpkauth -- manage SSH PK authentication keys on the RAC
       raw: racadm sshpkauth {{ '-d' if option|bool else '-v' }} -i {{ user }} -k {{ key }}
       register: sshpkauthVD
     - debug: var= sshpkauthVD
-    - shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/sshpkauth/{{ inventory_hostname }}-sshpkauthVD-{{ item[0] }}.txt
+    - shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/sshpkauth/{{ inventory_hostname }}/sshpkauthVD-{{ item[0] }}.txt
       delegate_to: localhost
       with_nested:
        - "{{ ractime.stdout_lines }}"
