@@ -8,7 +8,7 @@
     - name: make directory if not present
       shell: mkdir -p /root/ansible-idrac/auto-idrac/output/configs/{{ inventory_hostname }}
       delegate_to: localhost
-    - name: delete previous configs
+    - name: delete previous config logs
       shell: rm /root/ansible-idrac/auto-idrac/output/configs/{{ inventory_hostname }}/*
       delegate_to: localhost
     - name: getconfig -- display RAC configuration properties
@@ -20,8 +20,8 @@
       delegate_to: localhost
       with_items: "{{ racadm_config.stdout_lines }}"
     - name: copy to indexList
-      shell: grep ERROR ansible-idrac/auto-idrac/output/configs/idrac-1/* | grep -o "^[^-]*" > ansible-idrac/auto-idrac/output/configs/idrac-1/indexList.txt
+      shell: cd /root/ansible-idrac/auto-idrac/output/configs/{{ inventory_hostname }}/ | grep ERROR * | grep -o "^[^-]*" > indexList.txt
       delegate_to: localhost
     - name: copy to nonIndexList
-      shell: grep -vf indexList.txt configList.txt > nonIndexList.txt
+      shell: cd /root/ansible-idrac/auto-idrac/output/configs/{{ inventory_hostname }}/ | grep -vf indexList.txt configList.txt > nonIndexList.txt
       delegate_to: localhost

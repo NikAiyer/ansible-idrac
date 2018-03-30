@@ -4,14 +4,20 @@
   user: root
   sudo: yes
   gather_facts: no
+  vars:
+    file: "{{ lookup('file', '/root/ansible-idrac/auto-idrac/output/configs/{{ inventory_hostname }}/indexList.txt') }}"
+  vars_prompt:
+    - name: index
+      prompt: What index do you want to pick? (Valid indexes are between 1 and 16)
+      private: no
   tasks:
     - name: getconfig -- display individual RAC configuration properties
-      raw: racadm getconfig -g {{ item }}
-      with_items: "{{ racadm_config.stdout_lines }}"
+      raw: racadm getconfig -g {{ item }} -i {{ index }}
+      with_items: "{{ file }}"
       register: loop
     - debug: var=loop
     - name: Copy to config files
-      shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/configs/{{ inventory_hostname }}/{{ item[0].item }}-config.txt
+      shell: echo '{{ item[1] }}' >> /root/ansible-idrac/auto-idrac/output/configs/{{ inventory_hostname }}/{{ item[0].item }}-config-index-{{ index}}.txt
       delegate_to: localhost
       with_subelements: 
         - "{{ loop.results }}"
