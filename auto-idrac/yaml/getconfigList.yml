@@ -1,5 +1,4 @@
 --- # Testing
-#
 - hosts: idrac-1
   connection: ssh
   user: root
